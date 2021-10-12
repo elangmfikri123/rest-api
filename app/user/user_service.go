@@ -1,7 +1,15 @@
 package user
 
+import (
+	"errors"
+
+	"golang.org/x/crypto/bcrypt"
+)
+
 type Services interface {
 	CreateUser(req RequestUser) (User, error)
+	CheckExistEmail(req RequestUser) error
+	AuthUser(req RequestUserLogin) (User, error)
 }
 
 type services struct {
@@ -16,7 +24,13 @@ func (s *services) CreateUser(req RequestUser) (User, error) {
 	user := User{}
 	user.Name = req.Name
 	user.Email = req.Email
-	user.Password = req.Password
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return user, err
+	}
+
+	user.Password = string(hashedPassword)
 
 	newUser, err := s.repository.InsertUser(user)
 	if err != nil {
@@ -24,4 +38,31 @@ func (s *services) CreateUser(req RequestUser) (User, error) {
 	}
 
 	return newUser, nil
+}
+
+func (s *services) CheckExistEmail(req RequestUser) error {
+	email := req.Email
+
+	if user := s.repository.FindEmail(email); user != nil {
+		return errors.New("Email Sudah Terdaftar")
+	}
+
+	return nil
+}
+
+func (s *services) AuthUser(req RequestUserLogin) (User, error) {
+	email := req.Email
+	password := req.Password
+
+	user, err := s.repository.FindUserByEmail(email)
+	if err != nil {
+		return user, errors.New("Email Tidak Terdaftar")
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	if err != nil {
+		return user, errors.New("Email atau Kata Sandi TIDAK VALID")
+	}
+
+	return user, nil
 }
