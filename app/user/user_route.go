@@ -29,5 +29,10 @@ func (r UserRoutes) Route() []helper.Route {
 			Path:    "/login",
 			Handler: userHandler.UserLogin,
 		},
+		{
+			Method:  echo.GET,
+			Path:    "/secret",
+			Handler: userHandler.SecretResource,
+		},
 	}
 }

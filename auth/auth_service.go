@@ -29,10 +29,10 @@ func (s *authService) GetAccessToken(userID uint) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	signedkey, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
+	signedKey, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
 	if err != nil {
-		return signedkey, err
+		return signedKey, err
 	}
 
-	return signedkey, nil
+	return signedKey, nil
 }

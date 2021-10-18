@@ -104,3 +104,9 @@ func (h *userHandler) UserLogin(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 
 }
+
+func (h *userHandler) SecretResource(c echo.Context) error {
+	response := helper.M{"message": "Ini Adalah Route Rahasia"}
+
+	return c.JSON(http.StatusOK, response)
+}
