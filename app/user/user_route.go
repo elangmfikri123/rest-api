@@ -4,6 +4,7 @@ import (
 	"github.com/elangmfikri123/rest-api/auth"
 	"github.com/elangmfikri123/rest-api/database"
 	"github.com/elangmfikri123/rest-api/helper"
+	"github.com/elangmfikri123/rest-api/middleware"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,9 +31,10 @@ func (r UserRoutes) Route() []helper.Route {
 			Handler: userHandler.UserLogin,
 		},
 		{
-			Method:  echo.GET,
-			Path:    "/secret",
-			Handler: userHandler.SecretResource,
+			Method:     echo.GET,
+			Path:       "/secret",
+			Handler:    userHandler.SecretResource,
+			Middleware: []echo.MiddlewareFunc{middleware.JwtMiddleware()},
 		},
 	}
 }
