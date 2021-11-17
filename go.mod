@@ -1,5 +1,5 @@
 module github.com/elangmfikri123/rest-api
-
+// +heroku goVersion go1.17
 go 1.17
 
 require (
