@@ -37,4 +37,5 @@ func main() {
 	routes.DefineApiRoutes(e)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
+
 }
