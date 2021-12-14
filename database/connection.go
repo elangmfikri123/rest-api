@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/elangmfikri123/rest-api/config"
-	"github.com/elangmfikri123/rest-api/produk"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -25,11 +24,11 @@ func GetDbInstance() *gorm.DB {
 		//dbConfig.SslMode,
 	)
 
-	produkRepository := produk.NewRepository(db)
-	produks, err := produkRepository.FindAll()
+	//produkRepository := produk.NewRepository(db)
+	// produks, err := produkRepository.FindByUserID(1)
 
-	fmt.Println("debug")
-	fmt.Println(len(produks))
+	// fmt.Println("debug")
+	// fmt.Println(len(produks))
 
 	db, err := gorm.Open("postgres", dsn)
 	if err != nil {

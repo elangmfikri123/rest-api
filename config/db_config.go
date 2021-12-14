@@ -8,7 +8,7 @@ type DbConnection struct {
 	DbName   string
 	Username string
 	Password string
-	//SslMode  string
+	SslMode  string
 }
 
 func DbConfig() DbConnection {
